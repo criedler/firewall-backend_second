@@ -10,7 +10,7 @@ router.get('/vlans',adminVlanController.getAllVlans );
 
 router.post('/vlans', adminVlanController.createVlan)
 
-router.put('vlans', adminVlanController.updateVlan)
+router.put('/vlans', adminVlanController.updateVlan)
 
 router.delete('vlans', adminVlanController.deleteVlan)
 

@@ -34,7 +34,7 @@ function verifyAccessToken(req, res, next) {
 
     if (!token) return res.status(401).send('No token provided');
     try {
-        req.user = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+        req.user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     } catch (InvalidAccessError) {
         return res.status(401).send('invalid  token')
     }
@@ -71,10 +71,18 @@ function authorizeForAdmin(req, res, next) {
     next()
 }
 
+function checkAccess(req,res,next){
+    if(req.user.username!==req.params.list){
+        return res.sendStatus(403)
+    }
+    next()
+}
+
 module.exports = {
     authenticate,
     verifyAccessToken,
     verifyRefreshToken,
-    authorizeForAdmin
+    authorizeForAdmin,
+    checkAccess
 };
 

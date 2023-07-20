@@ -1,5 +1,3 @@
-
-
 const {makeRequest} = require("../../services/requestAPIService");
 
 async function getRules (req, res ) {
@@ -42,8 +40,13 @@ async function deleteList(req,res) {
     const response = await makeRequest('/rest/config/v1/forwarding-firewall/rules'+req.params.list, method);
     res.send(response);
 }
+async function modifyRule(req,res) {
+    const method = 'PATCH';
+    let requestData = JSON.stringify(req.body);
 
-// login->
+    const response = await makeRequest('/rest/config/v1/forwarding-firewall/rules', method, requestData);
+    res.send(response);
+}
 
 
 
@@ -53,5 +56,6 @@ module.exports= {
     createRule,
     createList,
     deleteRule,
-    deleteList
+    deleteList,
+    modifyRule
 };

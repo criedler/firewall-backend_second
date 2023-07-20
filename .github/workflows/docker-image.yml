@@ -14,10 +14,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag firewall_backend:$(date +%s)
+      run: docker build . --file Dockerfile --tag firewall_backend:latest
       
     - name: Log in to Docker Hub
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - name: Push the Docker image to Docker Hub
-      run: docker push constiriedler/firewall_backend:$(date +%s)
+      run: docker push constiriedler/firewall_backend:latest

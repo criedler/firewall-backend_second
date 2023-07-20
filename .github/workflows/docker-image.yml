@@ -18,6 +18,9 @@ jobs:
       
     - name: Log in to Docker Hub
       run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+      
+    - name: Tag the Docker image with latest
+      run: docker tag firewall_backend:latest constiriedler/firewall_backend:latest
 
     - name: Push the Docker image to Docker Hub
       run: docker push constiriedler/firewall_backend:latest

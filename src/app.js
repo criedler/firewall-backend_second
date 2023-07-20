@@ -3,10 +3,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const usersRouter = require('./src/routes/auth/auth.js');
-const firewallRulesAdminRouter= require('./src/routes/admin/adminForwardingRules');
-const vlanRouter= require('./src/routes/admin/adminVlan');
-const firewallRulesUserRouter = require('./src/routes/user/userForwardingRules');
+const usersRouter = require('./routes/auth/auth.js');
+const firewallRulesAdminRouter= require('./routes/admin/adminForwardingRules');
+const vlanRouter= require('./routes/admin/adminVlan');
+const firewallRulesUserRouter = require('./routes/user/userForwardingRules');
 
 const app = express();
 const cors = require('cors');

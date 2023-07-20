@@ -23,4 +23,4 @@ jobs:
       run: docker tag firewall_backend:latest constiriedler/firewall_backend:v1.0.0
 
     - name: Push the Docker image to Docker Hub
-      run: docker push constiriedler/firewall_backend:v1.0.0
+      run: docker push constiriedler/firewall_backend:1.0

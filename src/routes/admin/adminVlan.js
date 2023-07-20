@@ -12,6 +12,6 @@ router.post('/vlans', adminVlanController.createVlan)
 
 router.put('/vlans', adminVlanController.updateVlan)
 
-router.delete('vlans', adminVlanController.deleteVlan)
+router.delete('/vlans', adminVlanController.deleteVlan)
 
 module.exports = router;

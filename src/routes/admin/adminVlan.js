@@ -14,4 +14,7 @@ router.put('/vlans', adminVlanController.updateVlan)
 
 router.delete('/vlans', adminVlanController.deleteVlan)
 
+router.post('/vlans/assign-vlan', adminVlanController.assignVlan)
+//Kunden vlan zuweisen
+
 module.exports = router;

@@ -13,13 +13,17 @@ async function makeRequest(url, method = 'GET', body = null, customHeaders = {})
         ...customHeaders
     };
 
-    const response = await fetch(preUrl + url + endUrl, {
-        method: method,
-        body: body,
-        headers: headers,
-    });
+    try {
+        const response = await fetch(preUrl + url + endUrl, {
+            method: method,
+            body: body,
+            headers: headers,
+        });
 
-    return await response.text();
+        return await response.text();
+    }catch (error){
+        return 'An error occurred when trying to reach the API' + error;
+    }
 }
 
 module.exports = {

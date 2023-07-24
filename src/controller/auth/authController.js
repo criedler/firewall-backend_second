@@ -13,9 +13,10 @@ async function login(req, res) {
 
     try {
         await pool.query(query, params);
-        res.json({accessToken, refreshToken});
+        return res.json({accessToken, refreshToken});
     } catch (error) {
-        return res.status(500).json({error: "An error occurred during login"});
+        console.error('Error during login:', error);
+        return res.status(500).send('An error occurred during login');
     }
 }
 
@@ -29,6 +30,7 @@ async function register(req, res, next) {
         await pool.query(query, params);
         next()
     } catch (error) {
+        console.error('Error during register:', error);
         if (error.code === 'ER_DUP_ENTRY') {
             return res.status(409).send('Username not available')
         } else {
@@ -39,18 +41,21 @@ async function register(req, res, next) {
 
 async function refreshToken(req, res) {
     const accessToken = tokenService.generateAccessToken(req.user);
-    res.json({accessToken});
+    return res.json({accessToken});
 }
 
 async function logout(req, res) {
     const user = req.user;
-    const query = "UPDATE User SET refreshToken = NULL WHERE User.id = ?";
+    const query = "UPDATE User SET refreshToken = NULL WHERE id = ?";
     const params = [user.id];
 
-        try {
+    try {
         await pool.query(query, params);
+        console.log('query success');
+        return res.status(200).send(`Logged out ${user.username}`)
     } catch (error) {
-        return res.status(500).json({error: "An error occurred during logout"});
+        console.error('Error during logout:', error);
+        return res.status(500).send("An error occurred during logout");
     }
 }
 

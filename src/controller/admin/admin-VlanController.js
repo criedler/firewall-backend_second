@@ -63,7 +63,6 @@ async function assignVlan(req, res) {
     } catch (error) {
         return 'Error when assigning vlan to user in the database';
     }
-
 }
 
 module.exports = {

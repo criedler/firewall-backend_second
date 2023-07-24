@@ -22,7 +22,8 @@ async function makeRequest(url, method = 'GET', body = null, customHeaders = {})
 
         return await response.text();
     }catch (error){
-        return 'An error occurred when trying to reach the API' + error;
+        console.error('Error during API request to Firewall:', error);
+        return 'An error occurred when trying to reach the Firewall API';
     }
 }
 

@@ -11,7 +11,7 @@ function generateRefreshToken(user) {
 function configurePayLoad(user) {
     return {
         userId: user.id,
-        userName: user.username,
+        username: user.username,
         userRole: user.role
     }
 }

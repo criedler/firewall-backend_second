@@ -4,22 +4,23 @@ const jwt = require("jsonwebtoken");
 async function authenticate(req, res, next) {
     try {
         const query = "SELECT * FROM User WHERE username = ?";
-        const [result] = await pool.query(query, [req.body.username]);
+        const [user] = await pool.query(query, [req.body.username]);
 
-        if (result.length === 0) {
+        if (user.length === 0) {
             return res.status(401).send('Invalid credentials');
         }
 
-        const storedPassword = result[0].password;
+        const storedPassword = user[0].password;
         const passwordMatch = await bcrypt.compare(req.body.password, storedPassword);
 
         if (!passwordMatch) {
             return res.status(401).send('Invalid credentials');
         }
-        req.user = result[0];
+        req.user = user[0];
         next();
     } catch (error) {
-        res.status(500).send('Error during authentication');
+        console.error('Error during authentication:', error);
+        return res.status(500).send('Error during authentication');
     }
 }
 
@@ -31,6 +32,7 @@ function verifyAccessToken(req, res, next) {
         req.user = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         next()
     } catch (error) {
+        console.error('Error during accessToken verification:', error);
         if (error instanceof jwt.TokenExpiredError) {
             return res.status(401).send('Token expired')
         } else {
@@ -45,6 +47,7 @@ async function verifyRefreshToken(req, res, next) {
     try {
         req.user = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     } catch (error) {
+        console.error('Error during refreshToken verification:', error);
         if (error instanceof jwt.TokenExpiredError) {
             return res.status(401).send('RefreshToken expired');
         } else {
@@ -63,6 +66,7 @@ async function verifyRefreshToken(req, res, next) {
         }
         next()
     } catch (error) {
+        console.error('Error during getting refreshToken from Database:', error);
         return res.status(500).send(`Error while getting refreshToken from database`);
     }
 }

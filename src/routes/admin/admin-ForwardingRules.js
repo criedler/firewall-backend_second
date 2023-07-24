@@ -16,7 +16,9 @@ router.route('/rules/:rule')
 
 router.route('/rules/lists/:list')
     .get(userController.getRulesInList)
-    .post(userController.createRuleInList);
+    .post(userController.createRuleInList)
+    .delete(adminController.deleteList);
+
 
 router.route('/rules/lists/:list/:rule')
     .patch(userController.modifyRuleInList)
@@ -25,7 +27,6 @@ router.route('/rules/lists/:list/:rule')
 router.route('/rules/lists')
     .get(adminController.getRuleLists)
     .post(adminController.createList)
-    .delete(adminController.deleteList);
 
 
 

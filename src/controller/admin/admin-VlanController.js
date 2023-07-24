@@ -1,5 +1,6 @@
 const {makeRequest} = require("../../services/requestAPIService");
-const pool = require("../../config/mysql");
+const vlanService = require("../../services/vlanService");
+
 
 async function getAllVlans(req, res) {
     const vlans = await makeRequest('/rest/config/v1/box/network/vlans');
@@ -22,16 +23,10 @@ async function createVlan(req, res) {
     const response = await makeRequest(url, method, body);
 
     const vlanName = body.name
-    const query = "INSERT INTO Vlan (name) VALUES (?)";
-    const params = [vlanName];
-    try {
-        await pool.query(query, params);
-        res.send(`Inserted ${vlanName} into database`);
-    } catch (error) {
-        return 'Error when assigning vlan to user in the database';
-    }
 
-    return res.send(response)
+    const message = await vlanService.insertVlanIntoDatabase(vlanName);
+
+    return res.send(`Firewall response: ${response} \nDatabase response: ${message}`);
 }
 
 async function updateVlan(req, res) {
@@ -40,7 +35,12 @@ async function updateVlan(req, res) {
     const url = '/rest/config/v1/box/network/vlans'
 
     const response = await makeRequest(url, method, body);
-    res.send(response);
+
+    const vlanName = body.name
+
+    const message = await vlanService.updateVlanInDatabase(vlanName);
+
+    res.send(`Firewall response: ${response} \nDatabase response: ${message}`);
 }
 
 async function deleteVlan(req, res) {
@@ -48,21 +48,20 @@ async function deleteVlan(req, res) {
     const url = '/rest/config/v1/box/network/vlans';
 
     const response = await makeRequest(url, method);
-    res.send(response);
+    const vlanName = req.body.name
+
+    const message = await vlanService.deleteVlanFromDatabase(vlanName);
+
+    res.send(`Firewall response: ${response} \nDatabase response: ${message}`);
 }
 
 async function assignVlan(req, res) {
     const username = req.body.username;
-    const vlan = req.body.vlan;
+    const vlan = req.body.vlanName;
 
-    const query = "UPDATE Vlan SET user_id = ? WHERE vlan= ?";
-    const params = [username, vlan];
-    try {
-        await pool.query(query, params);
-        res.send(`Assigned user ${username} to ${vlan}`);
-    } catch (error) {
-        return 'Error when assigning vlan to user in the database';
-    }
+    const message = await vlanService.assignUserToVlan(username, vlan);
+
+    res.send(message);
 }
 
 module.exports = {

@@ -11,7 +11,7 @@ const authRouter = require('./routes/auth/auth.js');
 const adminFirewallRulesRouter = require('./routes/admin/admin-ForwardingRules');
 const adminHandleUsersController = require('./routes/admin/admin-HandleUsers');
 const adminVlanRouter = require('./routes/admin/admin-Vlan');
-const usersFirewallRulesRouter = require('./routes/user/user-ForwardingRules');
+const userFirewallRulesRouter = require('./routes/user/user-ForwardingRules');
 
 
 app.use(logger('dev'));
@@ -25,6 +25,6 @@ app.use('/users', authRouter);
 app.use('/admin/forwarding-firewall', adminFirewallRulesRouter);
 app.use('/admin/network', adminVlanRouter);
 app.use('/admin/users', adminHandleUsersController);
-app.use('/user/forwarding-firewall', usersFirewallRulesRouter);
+app.use('/user/forwarding-firewall', userFirewallRulesRouter);
 
 module.exports = app;

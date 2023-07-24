@@ -1,23 +1,16 @@
 const pool = require("../../config/mysql");
+const {userService} = require("../../services/userService");
 
-async function getUsers (req, res ) {
-    const query = "SELECT User.username, Vlan.name FROM User INNER JOIN Vlan ON User.id = Vlan.user_id";
-    const [users] = await pool.query(query);
-    res.json(users);
+async function getUsers(req, res) {
+    res.send(userService.getUsers());
 }
 
-async function deleteUser (req, res) {
-    const query = "DELETE FROM User WHERE username = ?";
-    const params = [req.params.username];
-    console.log(req.params.username);
-    try {
-        await console.log(await pool.query(query, params));
-        res.send(`Deleted ${req.params.username} from database`);
-    } catch (error) {
-        return res.send('Error when deleting user from the database');
-    }
-}
+async function deleteUser(req, res) {
+    const username = req.params.username;
+    const message = await userService.deleteUserFromDataBase(username);
 
+    res.send(message);
+}
 
 
 module.exports = {

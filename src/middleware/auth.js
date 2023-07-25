@@ -7,14 +7,14 @@ async function authenticate(req, res, next) {
         const [user] = await pool.query(query, [req.body.username]);
 
         if (user.length === 0) {
-            return res.status(401).send('Invalid credentials');
+            return res.status(401).send('user not found');
         }
 
         const storedPassword = user[0].password;
         const passwordMatch = await bcrypt.compare(req.body.password, storedPassword);
 
         if (!passwordMatch) {
-            return res.status(401).send('Invalid credentials');
+            return res.status(401).send('password incorrect');
         }
         req.user = user[0];
         next();

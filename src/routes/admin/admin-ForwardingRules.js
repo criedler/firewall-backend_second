@@ -26,7 +26,7 @@ router.route('/rules/lists/:list/:rule')
 
 router.route('/rules/lists')
     .get(adminController.getRuleLists)
-    .post(adminController.createList)
+    .post(adminController.createList);
 
 
 

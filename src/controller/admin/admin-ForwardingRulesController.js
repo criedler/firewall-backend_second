@@ -37,7 +37,7 @@ async function createList(req, res) {
 async function deleteList(req,res) {
     const method = 'DELETE';
 
-    const response = await makeRequest('/rest/config/v1/forwarding-firewall/rules/'+req.params.list, method);
+    const response = await makeRequest('/rest/config/v1/forwarding-firewall/rules/lists/'+req.params.list, method);
     res.send(response);
 }
 async function modifyRule(req,res) {
@@ -47,8 +47,6 @@ async function modifyRule(req,res) {
     const response = await makeRequest('/rest/config/v1/forwarding-firewall/rules', method, requestData);
     res.send(response);
 }
-
-
 
 module.exports= {
     getRules,

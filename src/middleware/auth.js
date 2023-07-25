@@ -80,7 +80,7 @@ function authorizeForAdmin(req, res, next) {
 
 function checkAccess(req, res, next) {
     if (req.user.username !== req.params.list) {
-        return res.sendStatus(403)
+        return res.sendStatus(403);
     }
     next()
 }

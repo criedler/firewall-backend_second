@@ -3,17 +3,13 @@ const userController = require('../../controller/user/user-ForwardingRulesContro
 const {verifyAccessToken} = require("../../middleware/auth");
 const {checkAccess} = require("../../middleware/auth");
 router.use(verifyAccessToken)
-router.use(checkAccess)
 
 router.route('/rules/lists/:list')
-    .get(userController.getRulesInList)
+    .get(checkAccess,userController.getRulesInList)
     .post(userController.createRuleInList);
 
 router.route('/rules/lists/:list/:rule')
     .patch(userController.modifyRuleInList)
     .delete(userController.deleteRuleInList);
-
-
-
 
 module.exports = router

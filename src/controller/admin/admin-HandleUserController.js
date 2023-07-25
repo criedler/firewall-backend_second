@@ -1,8 +1,7 @@
-const pool = require("../../config/mysql");
-const {userService} = require("../../services/userService");
+const userService = require("../../services/userService");
 
 async function getUsers(req, res) {
-    res.send(userService.getUsers());
+    res.send(await userService.getUsersFromDatabase());
 }
 
 async function deleteUser(req, res) {

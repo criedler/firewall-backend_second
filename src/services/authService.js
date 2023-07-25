@@ -19,7 +19,7 @@ async function insertUserIntoDatabase(username, hashedPassword) {
 
     try {
         await pool.query(query, params);
-        return null; // Success, no error
+        return null;
     } catch (error) {
         console.error('Error during register:', error);
         if (error.code === 'ER_DUP_ENTRY') {

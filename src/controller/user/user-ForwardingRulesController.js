@@ -2,6 +2,7 @@ const {makeRequest} = require("../../services/requestAPIService");
 
 
 async function getRulesInList(req, res) {
+    console.log(req.params.list+'controller');
     const response = await makeRequest('/rest/config/v1/forwarding-firewall/rules/lists/' + req.params.list);
     res.send(response);
 }

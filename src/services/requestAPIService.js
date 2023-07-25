@@ -20,8 +20,14 @@ async function makeRequest(url, method = 'GET', body = null, customHeaders = {})
             headers: headers,
         });
 
-        return await response.text();
-    }catch (error){
+        const responseBody = await response.text();
+
+        if (responseBody.length === 0) {
+            return ({status: response.status, statusText: response.statusText});
+        } else {
+            return JSON.parse(responseBody);
+        }
+    } catch (error) {
         console.error('Error during API request to Firewall:', error);
         return 'An error occurred when trying to reach the Firewall API';
     }

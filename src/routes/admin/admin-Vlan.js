@@ -9,8 +9,9 @@ router.use(authorizeForAdmin);
 router.route('/vlans')
     .get(adminVlanController.getAllVlans)
     .post(adminVlanController.createVlan)
-    .put(adminVlanController.updateVlan)
-    .delete(adminVlanController.deleteVlan);
+    .put(adminVlanController.updateVlan);
+
+router.delete('/vlans/:vlanName', adminVlanController.deleteVlan);
 
 router.post('/vlans/assign-vlan', adminVlanController.assignVlan);
 

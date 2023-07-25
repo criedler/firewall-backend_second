@@ -22,6 +22,9 @@ jobs:
     - name: Tag the Docker image with the version
       run: docker tag firewall_backend:latest constiriedler/firewall_backend:1.1
 
+    - name: Tag the Docker image with latest
+      run: docker tag firewall_backend:latest constiriedler/firewall_backend:latest
+
     - name: Push the versioned Docker image to Docker Hub
       run: docker push constiriedler/firewall_backend:1.1
 

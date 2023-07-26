@@ -1,14 +1,18 @@
 const userService = require("../../services/userService");
 
 async function getUsers(req, res) {
-    res.send(await userService.getUsersFromDatabase());
+    res.json(await userService.getUsersFromDatabase());
 }
 
 async function deleteUser(req, res) {
     const username = req.params.username;
     const message = await userService.deleteUserFromDataBase(username);
+    //check if message is an error
+    if (message.status) {
 
-    res.send(message);
+    }
+
+    res.json(message);
 }
 
 

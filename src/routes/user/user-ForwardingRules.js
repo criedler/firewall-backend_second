@@ -6,10 +6,10 @@ router.use(verifyAccessToken)
 
 router.route('/rules/lists/:list')
     .get(checkAccess,userController.getRulesInList)
-    .post(userController.createRuleInList);
+    .post(checkAccess,userController.createRuleInList);
 
 router.route('/rules/lists/:list/:rule')
-    .patch(userController.modifyRuleInList)
-    .delete(userController.deleteRuleInList);
+    .patch(checkAccess,userController.modifyRuleInList)
+    .delete(checkAccess,userController.deleteRuleInList);
 
 module.exports = router

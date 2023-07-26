@@ -29,7 +29,7 @@ async function makeRequest(url, method = 'GET', body = null, customHeaders = {})
         }
     } catch (error) {
         console.error('Error during API request to Firewall:', error);
-        return 'An error occurred when trying to reach the Firewall API';
+        return {status:500,message:'An error occurred when trying to reach the Firewall API'};
     }
 }
 

@@ -28,14 +28,4 @@ router.route('/rules/lists')
     .get(adminController.getRuleLists)
     .post(adminController.createList);
 
-
-
-
-
-
-
-
-
-
-
 module.exports = router;

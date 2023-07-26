@@ -7,22 +7,22 @@ async function insertVlanIntoDatabase(vlanName) {
     const params = [vlanName];
     try {
         await pool.query(query, params);
-        return `Inserted ${vlanName} into the database`;
+        return {status:200,message:`Inserted ${vlanName} into the database`};
     } catch (error) {
-        console.log('Error during insert:', error);
-        return 'Error when assigning vlan to user in the database';
+        console.error('Error during insert:', error);
+        return {status:500,message:`Error when inserting ${vlanName} into the database`};
     }
 }
 
-async function updateVlanInDatabase(vlanName, vlan) {
+async function updateVlanInDatabase( currentVlanName,newVlanName) {
     const query = "UPDATE Vlan SET name = ? WHERE name= ?";
-    const params = [vlanName, vlan];
+    const params = [newVlanName, currentVlanName];
     try {
         await pool.query(query, params);
-        return `Updated ${vlanName} in the database`;
+        return {status:200,message:`Updated ${currentVlanName} to ${newVlanName} in the database`};
     } catch (error) {
-        console.log('Error during update:', error);
-        return 'Error when updating vlan in the database';
+        console.error('Error during update:', error);
+        return {status:500,message:`Error when updating ${currentVlanName} to ${newVlanName} in the database`}
     }
 }
 
@@ -31,10 +31,10 @@ async function deleteVlanFromDatabase(vlanName) {
     const params = [vlanName];
     try {
         await pool.query(query, params);
-        return `Deleted ${vlanName} from the database`;
+        return {status:200, message:`Deleted ${vlanName} from the database`};
     } catch (error) {
-        console.log('Error during delete:', error);
-        return 'Error when deleting vlan from the database';
+        console.error('Error during delete:', error);
+        return {status:500, message:`Error when deleting ${vlanName} from the database`};
     }
 }
 
@@ -44,7 +44,6 @@ async function assignUserToVlan(username, vlan) {
 
     try {
         const [result] = await pool.query(queryId, usernameParam);
-        console.log(result);
         if (result.length === 0) {
             return {status: 404, message: 'User not found in the database'};
         }
@@ -54,10 +53,9 @@ async function assignUserToVlan(username, vlan) {
         await pool.query(query, params);
         return {status: 200, message: `Assigned user ${username} to ${vlan}`};
     } catch (error) {
-        console.log('Error during assign:', error);
+        console.error('Error during assign:', error);
         return {status: 500, statusText: 'Internal Server Error'};
     }
-
 
 }
 

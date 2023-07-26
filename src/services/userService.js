@@ -4,7 +4,6 @@ async function getUsersFromDatabase() {
     const query = "SELECT User.id, User.username, Vlan.name FROM User INNER JOIN Vlan ON User.id = Vlan.user_id";
     try {
         const [users] = await pool.query(query);
-        console.log(users);
         return users;
     } catch (error) {
         console.error('Error during SELECT:', error);

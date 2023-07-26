@@ -5,23 +5,19 @@ const authService = require('../../services/authService');
 
 
 async function login(req, res) {
-    try {
-        const user = req.user;
-        const accessToken = tokenService.generateAccessToken(user);
-        const refreshToken = tokenService.generateRefreshToken(user);
 
-        const error = await authService.setRefreshTokenInDatabase(refreshToken, user.id);
+    const user = req.user;
+    const accessToken = tokenService.generateAccessToken(user);
+    const refreshToken = tokenService.generateRefreshToken(user);
 
-        if (!error) {
-            return res.json({accessToken, refreshToken});
-        } else {
-            const status = error.status || 500;
-            const message = error.message || 'Internal Server Error';
-            return res.status(status).json({error: message});
-        }
-    } catch (error) {
-        return res.status(500).json({error: 'Internal Server Error'});
+    const error = await authService.setRefreshTokenInDatabase(refreshToken, user.id);
+
+    if (!error) {
+        return res.json({success: true, accessToken, refreshToken});
+    } else {
+        return res.status(error.status).json({success: false, message: error});
     }
+
 }
 
 async function register(req, res, next) {
@@ -32,26 +28,23 @@ async function register(req, res, next) {
     if (!error) {
         next();
     } else {
-        const status = error.status || 500;
-        const message = error.message || 'Internal Server Error';
-        return res.status(status).json({error: message});
+        return res.status(error.status).json({success: false, message: error});
     }
 }
 
 
 async function refreshToken(req, res) {
     const accessToken = tokenService.generateAccessToken(req.user);
-    return res.json({accessToken});
+    return res.status(200).json({success: true, accessToken: accessToken});
 }
 
 async function logout(req, res) {
     const user = req.user;
     const query = "UPDATE User SET refreshToken = NULL WHERE id = ?";
-    const params = [user.id];
+    const params = [user.userId];
 
     try {
         await pool.query(query, params);
-        console.log('query success');
         return res.status(200).send(`Logged out ${user.username}`)
     } catch (error) {
         console.error('Error during logout:', error);
